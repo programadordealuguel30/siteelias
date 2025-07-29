@@ -7,7 +7,10 @@ app = Flask(__name__)
 
 # crsf_token()
 app.config['SECRET_KEY'] = 'bff26e704c4ec87ae5a9232095ba5b2380ecdfec' # no terminal, digitar pyhton, depois import secrets, depois secrets.token_hex(20). No fim, digite exit para voltar.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bancodadosflask.db'
+if os.getenv('DATABASE_URL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bancodadosflask.db'
 
 database = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
